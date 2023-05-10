@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="JavaScript/main.js"></script>
+    <title>Battleships!</title>
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+
+    <container class="difficulty-screen">
+        <h1 class="title">BATTLESHIPS</h1>
+        <h3 class="difficulty">Please Select Difficulty</h3>
+        <button class="easy">EASY</button>
+        <button class="hard">HARD</button>
+    </container>
+
+    <main class="hide">
+    <h1 class="UI-title">BATTLESHIPS</h1>
+    <container class="UI">
+        <section id="player-board">
+            <div class="coords">x</div>
+            <div class="coords">A</div>
+            <div class="coords">B</div>
+            <div class="coords">C</div>
+            <div class="coords">D</div>
+            <div class="coords">E</div>
+            <div class="coords">F</div>
+            <div class="coords">G</div>
+            <div class="coords">H</div>
+            <div class="coords">I</div>
+            <div class="coords">J</div>
+            <div class="coords">1</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">2</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">3</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">4</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">5</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">6</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">7</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">8</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">9</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">10</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+        </section>
+
+        <section id="cpu-board">
+            <div class="coords">x</div>
+            <div class="coords">A</div>
+            <div class="coords">B</div>
+            <div class="coords">C</div>
+            <div class="coords">D</div>
+            <div class="coords">E</div>
+            <div class="coords">F</div>
+            <div class="coords">G</div>
+            <div class="coords">H</div>
+            <div class="coords">I</div>
+            <div class="coords">J</div>
+            <div class="coords">1</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">2</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">3</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">4</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">5</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">6</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">7</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">8</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">9</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div class="coords">10</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+            <div id="dot" class="c0r0">•</div>
+        </section>
+
+        <container class="chat-box">
+            <div id="dialogue-box"> chatbox</div>
+            <button class="play-again">PLAY AGAIN</button>
+        </container>
+    </container>
+    </main>
+</body>
+</html>
