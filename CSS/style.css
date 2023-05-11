@@ -67,7 +67,7 @@ body {
 }
 
 
-#dot {
+.dot {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -78,8 +78,11 @@ body {
     color: darkblue;
     background-color: rgb(6, 100, 230);
 }
-#dot:hover {
+.dot:hover {
     background-color: rgb(2, 64, 150);
+}
+.dot.previewShipPlacement {
+    background-color: rgb(177, 177, 177);
 }
 .coords {
     display: flex;

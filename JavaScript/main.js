@@ -1,10 +1,10 @@
 // ! ----------------------------- Constants ----------------------------- ! //
 
-hitDetection = {
-  'H': 'red',
-  'M': 'blue',
-  'N': 'lightBlue'
-};
+hitDetection = [
+  {'H': 'red'},
+  {'M': 'blue'},
+  {'N': 'lightBlue'}
+];
 
 coords = [
   {letter:'A'},
@@ -20,8 +20,8 @@ coords = [
 ];
 
 ships = [
-  {type: 'submarine', length: 2},
-  {type: 'destroyer', length: 3},
+  {type: 'submarine', length: 1},
+  {type: 'destroyer', length: 2},
   {type: 'cruiser', length: 3},
   {type: 'battleship', length: 4},
   {type: 'carrier', length: 5}
@@ -31,13 +31,25 @@ ships = [
 
 let winner = null;
 let choice = null;
-let turn;
+let turn = null;
+
+let carrierPlaced = false;
+let battleshipPlaced = false;
+let cruiserPlaced = false;
+let destroyerPlaced = false;
+let submarinePlaced = false;
+
+let cpuCarrierPlaced = false;
+let cpuBattleshipPlaced = false;
+let cpuCruiserPlaced = false;
+let cpuDestroyerPlaced = false;
+let cpuSubmarinePlaced = false;
 
 //* ---------------------------- Cached Elements ---------------------------- *//
 
 const startScreen = document.querySelector('.difficulty-screen');
-const cpuBoardTiles = document.querySelectorAll('#cpu-board > #dot');
-const playerBoardTiles = document.querySelectorAll('#player-board > #dot');
+const cpuBoardTiles = document.querySelectorAll('#cpu-board > .dot');
+const playerBoardTiles = document.querySelectorAll('#player-board > .dot');
 const easyButton = document.querySelector('.easy');
 const hardButton = document.querySelector('.hard');
 
@@ -45,9 +57,17 @@ const hardButton = document.querySelector('.hard');
 
 playerBoardTiles.forEach(playerdot => {
   playerdot.addEventListener('click', evt => {
-    handlePlayerShipPlacement(evt, playerBoard)
+    handleShipPlacement(evt, playerBoard)
+  });
+  playerdot.addEventListener('mouseenter', function (e) {
+    e.target.classList.add('previewShipPlacement')
+  });
+  playerdot.addEventListener('mouseleave', function (e) {
+    console.log('mouseleave')
+    e.target.classList.remove('previewShipPlacement')
   });
 });
+
 
 
 function test() {
@@ -89,17 +109,17 @@ function initEasy() {
   ];
   turn = 1;
   winner = null;
-  renderEasy();
+  // renderEasy();
 }
 // function initHard() {
 
 // // }
-function renderEasy() {
-  renderComputerBoard();
-  renderPlayerBoard();
-  renderMessage();
-  renderControls();
-}
+// function renderEasy() {
+//   renderComputerBoard();
+//   renderPlayerBoard();
+//   renderMessage();
+//   renderControls();
+// }
  function renderComputerBoard() {
   cpuBoard.forEach(function(cpuNumArray, cpuLetterIdx) {
     cpuNumArray.forEach(function(cpuCellValue, cpuNumIdx) {
@@ -117,9 +137,6 @@ function renderEasy() {
         console.log(cellId);
       })
     })
-  function placeCpuShips(cellId) {
-    shipPlacement = Math.floor(Math.random() * 10);
-  }
 };
 
 // handleShot() {
@@ -134,15 +151,35 @@ function renderEasy() {
 
 //! ----------------------- SHIP PLACEMENT ----------------------- !//
 
-function handlePlayerShipPlacement(evt, playerBoard, playerdot) {
-  console.log('test2')
-  placeCarrier(evt, playerBoard);
-    console.log('test3')
-    placeBattleship();
-      placeCruiser();
-        placeSubmarine();
-          placeDestroyer();
-}         
+function handleShipPlacement(evt, playerBoard, playerdot) {
+  console.log('playershipplacement')
+  if (carrierPlaced === false) {
+    placeCarrier(evt, playerBoard, ships[4].length);
+    console.log('carrier')
+    carrierPlaced = true;
+  } else if (battleshipPlaced === false) {
+      placeBattleship(evt, playerBoard, ships[3].length );
+      console.log('battleship')
+      battleshipPlaced = true;
+  } else if (cruiserPlaced === false) {
+      placeCruiser(evt, playerBoard, ships[2].length);
+      console.log('cruiser')
+      cruiserPlaced = true;
+    } else if (destroyerPlaced === false) {        
+      placeDestroyer(evt, playerBoard, ships[0].length);
+      console.log('destroyer')
+      destroyerPlaced = true;
+  } else if (submarinePlaced === false) {
+      placeSubmarine(evt, playerBoard, ships[1].length);
+      console.log('sub')
+      submarinePlaced = true;         
+  } else if (submarinePlaced === true) {
+    placeCpuShips(cpuBoard); 
+    console.log(cpuBoard)
+  }
+}
+
+//TODO ADD ROTATE FUNCTIONALITY AND CHECKFOROVERLAP
 function placeCarrier(evt, playerBoard) {
   console.log(evt.target);
   //gets index of clicked tile
@@ -155,19 +192,211 @@ function placeCarrier(evt, playerBoard) {
     playerBoardTiles[x].style.backgroundColor = 'gray';
     //divides tile index by 10 for first coordinate, then takes remainder of x/10 for second coordinate then sets those to 5s to represent carrier
     playerBoard[Math.floor(x / 10)][x % 10] = shipLength;
-    playerBoardTiles[x].removeEventListener('click', handlePlayerShipPlacement);
+    // playerBoardTiles[x].removeEventListener('click', handlePlayerShipPlacement);
+  }
+}
+function placeBattleship(evt, playerBoard) {
+  const selection = Array.from(playerBoardTiles).indexOf(evt.target);
+  console.log(selection)
+  const shipLength = ships[3].length
+  for (let x = selection; x < selection + shipLength; x++) {
+    playerBoardTiles[x].style.backgroundColor = 'gray';
+    playerBoard[Math.floor(x / 10)][x % 10] = shipLength;
+  }
+}
+function placeCruiser(evt, playerBoard) {
+  const selection = Array.from(playerBoardTiles).indexOf(evt.target);
+  console.log(selection)
+  const shipLength = ships[2].length
+  for (let x = selection; x < selection + shipLength; x++) {
+    playerBoardTiles[x].style.backgroundColor = 'gray';
+    playerBoard[Math.floor(x / 10)][x % 10] = shipLength;
+    playerBoardTiles[x].removeEventListener('click', handleShipPlacement);
+  }
+}
+function placeDestroyer(evt, playerBoard) {
+  const selection = Array.from(playerBoardTiles).indexOf(evt.target);
+  console.log(selection)
+  const shipLength = ships[1].length
+  for (let x = selection; x < selection + shipLength; x++) {
+    playerBoardTiles[x].style.backgroundColor = 'gray';
+    playerBoard[Math.floor(x / 10)][x % 10] = shipLength;
+    playerBoardTiles[x].removeEventListener('click', handleShipPlacement);
+  }
+}
+function placeSubmarine(evt, playerBoard) {
+  const selection = Array.from(playerBoardTiles).indexOf(evt.target);
+  console.log(selection)
+  const shipLength = ships[0].length
+  for (let x = selection; x < selection + shipLength; x++) {
+    playerBoardTiles[x].style.backgroundColor = 'gray';
+    playerBoard[Math.floor(x / 10)][x % 10] = shipLength;
+    playerBoardTiles[x].removeEventListener('click', handleShipPlacement);
   }
   console.log(playerBoard);
-  // removeEventListenerFromTilesInShipPlacement(playerBoardTiles, selection, shipLength);
 }
 
-// function removeEventListenerFromTilesInShipPlacement(playerBoardTiles, selection, shipLength) {
-//   //for loops starts at clicked tiles and goes 5 times to the right
-//   console.log('remove');
-//   for (let r = selection; r < selection + shipLength; r++) {
-//     //removes evt listeners from range of tiles
-//     playerBoardTiles[r].removeEventListener('click', handlePlayerShipPlacement);
-//     console.log(selection, shipLength, playerBoardTiles[r])
-//     console.log('remove2');
-//   }
-// }
+function placeCpuShips(cpuBoard) {
+  console.log('placing cpu ships')
+  // if (cpuCarrierPlaced === false) {
+    placeCpuCarrier(cpuBoard, ships[4].length)
+    // cpuCarrierPlaced = true;
+  // } else if (cpuBattleshipPlaced === false) {
+    placeCpuBattleship(cpuBoard, ships[3].length)
+    // cpuBattleshipPlaced = true;
+  // } else if (cpuCruiserPlaced === false) {
+    placeCpuCruiser(cpuBoard, ships[2].length)
+    // cpuCruiserPlaced = true;
+  // } else if (cpuDestroyerPlaced === false) {
+    placeCpuDestroyer(cpuBoard, ships[1].length)
+    // cpuDestroyerPlaced = true;
+  // } else if (cpuSubmarinePlaced === false) {
+    placeCpuSubmarine(cpuBoard, ships[0].length)
+    // cpuSubmarinePlaced = true;
+  // }
+}
+
+
+
+
+function placeCpuCarrier(cpuBoard) {
+  console.log('start of cpu carrier function')
+  const shipLength = 5;
+  let startLocation;
+  let canShipBePlacedHere = false;
+    startLocation = Math.floor(Math.random() * 100);
+    let startingRow = Math.floor(startLocation / 10);
+    let startingLetter = Math.floor(startLocation % 10);
+    let endingRow = Math.floor((startLocation + shipLength) / 10);
+    let endingLetter = Math.floor((startLocation + shipLength) % 10);
+    if (startingRow === endingRow || startingLetter === endingLetter) {
+      console.log('the ship fits')
+      for (let x = startingLetter; x < endingLetter + shipLength; x++) {
+        if (cpuBoard[startingRow][x] === 0) {
+          console.log('array did contain a 0')
+          cpuBoardTiles[startingRow].style.backgroundColor = 'gray';
+          cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
+          canShipBePlacedHere = true;
+        } else {
+          console.log('array did not contain a 0')
+          canShipBePlacedHere = false;
+        }
+        console.log(`here ${cpuBoard}`);
+      }
+    }
+  } 
+// function placeCpuCarrier(cpuBoard) {
+//   console.log('start of cpu carrier function')
+//   const shipLength = 5;
+//   let startLocation;
+ 
+//   let canShipBePlacedHere = false;
+//     startLocation = Math.floor(Math.random() * 100);
+//     let startingRow = Math.floor(startLocation / 10);
+//     let startingLetter = Math.floor(startLocation % 10);
+//     let endingRow = Math.floor((startLocation + shipLength) / 10);
+//     let endingLetter = Math.floor((startLocation + shipLength) % 10);
+
+//     let newCpuBoard = cpuBoard.map()
+//     console.log(newCpuBoard);
+//     if (startingRow === endingRow || startingLetter === endingLetter) {
+//       console.log('the ship fits')
+//       for (let x = startLocation; x < startLocation + shipLength; x++) {
+        
+//         console.log(`here ${cpuBoard[x]}`);
+
+//         if (cpuBoard[x] === 0) {
+//           console.log('array did contain a 0')
+//           cpuBoardTiles[x].style.backgroundColor = 'gray';
+//           cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
+//           canShipBePlacedHere = true;
+//         } else if (cpuBoard[x] !== 0) {
+//           console.log('array did not contain a 0')
+//           canShipBePlacedHere = false;
+//         }
+//       }
+//     }
+//   } 
+function placeCpuBattleship(cpuBoard) {
+  const shipLength = 4;
+  const startLocation = Math.floor(Math.random() * 100);
+  const startingRow = Math.floor(startLocation / 10);
+  const startingLetter = Math.floor(startLocation % 10);
+  const endingRow = Math.floor((startLocation + shipLength) / 10);
+  const endingLetter = Math.floor((startLocation + shipLength) % 10);
+  if ((startingRow !== endingRow) || (startingLetter !== endingLetter)) {
+    return;
+  } else {
+    for (let x = startLocation; x < startLocation + shipLength; x++) {
+      if (cpuBoard[x] !== 0) {
+        return;
+      } else {
+      cpuBoardTiles[x].style.backgroundColor = 'gray';
+      cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
+      }
+    }
+  }  
+}
+
+function placeCpuCruiser(cpuBoard) {
+  const shipLength = 3;
+  const startLocation = Math.floor(Math.random() * 100);
+  const startingRow = Math.floor(startLocation / 10);
+  const startingLetter = Math.floor(startLocation % 10);
+  const endingRow = Math.floor((startLocation + shipLength) / 10);
+  const endingLetter = Math.floor((startLocation + shipLength) % 10);
+  if ((startingRow !== endingRow) || (startingLetter !== endingLetter)) {
+    return;
+  } else {
+    for (let x = startLocation; x < startLocation + shipLength; x++) {
+      if (cpuBoard[x] !== 0) {
+        return;
+      } else {
+      cpuBoardTiles[x].style.backgroundColor = 'gray';
+      cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
+      }
+    }
+  } 
+}
+
+function placeCpuDestroyer(cpuBoard) {
+  const shipLength = 2;
+  const startLocation = Math.floor(Math.random() * 100);
+  const startingRow = Math.floor(startLocation / 10);
+  const startingLetter = Math.floor(startLocation % 10);
+  const endingRow = Math.floor((startLocation + shipLength) / 10);
+  const endingLetter = Math.floor((startLocation + shipLength) % 10);
+  if ((startingRow !== endingRow) || (startingLetter !== endingLetter)) {
+    return;
+  } else {
+    for (let x = startLocation; x < startLocation + shipLength; x++) {
+      if (cpuBoard[x] !== 0) {
+        return;
+      } else {
+      cpuBoardTiles[x].style.backgroundColor = 'gray';
+      cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
+      }
+    }
+  } 
+}
+
+function placeCpuSubmarine(cpuBoard) {
+  const shipLength = 1;
+  const startLocation = Math.floor(Math.random() * 100);
+  const startingRow = Math.floor(startLocation / 10);
+  const startingLetter = Math.floor(startLocation % 10);
+  const endingRow = Math.floor((startLocation + shipLength) / 10);
+  const endingLetter = Math.floor((startLocation + shipLength) % 10);
+  if ((startingRow !== endingRow) || (startingLetter !== endingLetter)) {
+    return;
+  } else {
+    for (let x = startLocation; x < startLocation + shipLength; x++) {
+      if (cpuBoard[x] !== 0) {
+        return;
+      } else {
+      cpuBoardTiles[x].style.backgroundColor = 'gray';
+      cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
+      }
+    }
+  } 
+}
