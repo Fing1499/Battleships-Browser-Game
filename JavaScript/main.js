@@ -238,33 +238,38 @@ function placeSubmarine(evt, playerBoard) {
 }
 
 function placeCpuShips(cpuBoard) {
-  console.log('placing cpu ships')
-  // if (cpuCarrierPlaced === false) {
-    placeCpuCarrier(cpuBoard, ships[4].length)
+  console.log('placing cpu ships');
+  if (cpuCarrierPlaced === false) {
+    placeCpuCarrier(cpuBoard, ships[4].length) 
     cpuCarrierPlaced = true;
-  // } else if (cpuBattleshipPlaced === false) {
-  //   placeCpuBattleship(cpuBoard, ships[3].length)
-  //   cpuBattleshipPlaced = true;
-  // } else if (cpuCruiserPlaced === false) {
-  //   placeCpuCruiser(cpuBoard, ships[2].length)
-  //   cpuCruiserPlaced = true;
-  // } else if (cpuDestroyerPlaced === false) {
-  //   placeCpuDestroyer(cpuBoard, ships[1].length)
-  //   cpuDestroyerPlaced = true;
-  // } else if (cpuSubmarinePlaced === false) {
-  //   placeCpuSubmarine(cpuBoard, ships[0].length)
-  //   cpuSubmarinePlaced = true;
-  // }
+    console.log('PLACED CARRIER')
+  } 
+  if (cpuCarrierPlaced === true) {
+    placeCpuBattleship(cpuBoard, ships[3].length) 
+    cpuBattleshipPlaced = true;
+    console.log('PLACED BATTLESHIP')
+  } 
+  if (cpuBattleshipPlaced === true) {
+    placeCpuCruiser(cpuBoard, ships[2].length) 
+    cpuCruiserPlaced = true;
+    console.log('PLACED CRUISER')
+  } 
+  if (cpuCruiserPlaced === true) {
+    placeCpuDestroyer(cpuBoard, ships[1].length) 
+    cpuDestroyerPlaced = true;
+    console.log('PLACED DESTROYER')
+  } 
+  if (cpuDestroyerPlaced === true) {
+    placeCpuSubmarine(cpuBoard, ships[0].length) 
+    cpuSubmarinePlaced = true;
+    console.log('PLACED SUBMARINE')
+  }
 }
+
 
 function placeCpuCarrier (cpuBoard) {
 
   const shipLength = ships[4].length;
-  // let randomStartLocation = Math.floor(Math.random() * 100);
-  // let startingRow = Math.floor(randomStartLocation / 10);
-  // let endingRow = Math.floor((randomStartLocation + shipLength) / 10);;
-  // let startingLetter = Math.floor(randomStartLocation % 10);
-  // let endingLetter = Math.floor((randomStartLocation + shipLength) % 10);
 
   let randomStartLocation;
   let startingRow = 1;
@@ -300,97 +305,158 @@ function placeCpuCarrier (cpuBoard) {
   console.log(cpuBoard);
 }
 
+function placeCpuBattleship (cpuBoard) {
 
+  const shipLength = ships[3].length;
 
+  let randomStartLocation;
+  let startingRow = 1;
+  let endingRow = 2;
+  let startingLetter = 1;
+  let endingLetter = 2;
 
+  while (startingRow !== endingRow) {
+    console.log('STARTING WHILE LOOP');
+    randomStartLocation = Math.floor(Math.random() * 100);
+    console.log(`RANDOM START: ${randomStartLocation}`)
 
+    startingRow = Math.floor(randomStartLocation / 10);
+    console.log(`STARTINGROW: ${startingRow}`)
+    endingRow = Math.floor((randomStartLocation + shipLength) / 10);
+    console.log(`ENDINGROW: ${endingRow}`)
+    endingLetter = Math.floor((randomStartLocation + shipLength) % 10);
+    console.log(`ENDINGLETTER: ${endingLetter}`)
+    startingLetter = Math.floor(randomStartLocation % 10);
+    console.log(`STARTINGLETTER: ${startingLetter}`)
+    } 
 
-
-
-
-
-
-
-function placeCpuBattleship(cpuBoard) {
-  const shipLength = 4;
-  const startLocation = Math.floor(Math.random() * 100);
-  const startingRow = Math.floor(startLocation / 10);
-  const startingLetter = Math.floor(startLocation % 10);
-  const endingRow = Math.floor((startLocation + shipLength) / 10);
-  const endingLetter = Math.floor((startLocation + shipLength) % 10);
-  if ((startingRow !== endingRow) || (startingLetter !== endingLetter)) {
-    return;
-  } else {
-    for (let x = startLocation; x < startLocation + shipLength; x++) {
-      if (cpuBoard[x] !== 0) {
-        return;
+    for (let x = startingLetter; x < startingLetter + shipLength; x++) {
+      if (cpuBoard[startingRow][(startingLetter - 1)] && cpuBoard[startingRow][(startingLetter)] && cpuBoard[startingRow][(startingLetter + 1)] && cpuBoard[startingRow][(startingLetter + 2)] !== 0) {
+        placeCpuBattleship(cpuBoard);
+        return;     
       } else {
-      cpuBoardTiles[x].style.backgroundColor = 'gray';
-      cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
+          console.log(` X VALUE: ${x}`)
+          console.log('does contain 0');
+          cpuBoard[startingRow][x] = shipLength;
+          cpuBoardTiles[x + (startingRow * 10)].style.backgroundColor = 'gray';
       }
     }
-  }  
+  console.log(cpuBoard);
 }
 
-function placeCpuCruiser(cpuBoard) {
-  const shipLength = 3;
-  const startLocation = Math.floor(Math.random() * 100);
-  const startingRow = Math.floor(startLocation / 10);
-  const startingLetter = Math.floor(startLocation % 10);
-  const endingRow = Math.floor((startLocation + shipLength) / 10);
-  const endingLetter = Math.floor((startLocation + shipLength) % 10);
-  if ((startingRow !== endingRow) || (startingLetter !== endingLetter)) {
-    return;
-  } else {
-    for (let x = startLocation; x < startLocation + shipLength; x++) {
-      if (cpuBoard[x] !== 0) {
-        return;
+function placeCpuCruiser (cpuBoard) {
+
+  const shipLength = ships[2].length;
+
+  let randomStartLocation;
+  let startingRow = 1;
+  let endingRow = 2;
+  let startingLetter = 1;
+  let endingLetter = 2;
+
+  while (startingRow !== endingRow) {
+    console.log('STARTING WHILE LOOP');
+    randomStartLocation = Math.floor(Math.random() * 100);
+    console.log(`RANDOM START: ${randomStartLocation}`)
+
+    startingRow = Math.floor(randomStartLocation / 10);
+    console.log(`STARTINGROW: ${startingRow}`)
+    endingRow = Math.floor((randomStartLocation + shipLength) / 10);
+    console.log(`ENDINGROW: ${endingRow}`)
+    endingLetter = Math.floor((randomStartLocation + shipLength) % 10);
+    console.log(`ENDINGLETTER: ${endingLetter}`)
+    startingLetter = Math.floor(randomStartLocation % 10);
+    console.log(`STARTINGLETTER: ${startingLetter}`)
+    } 
+
+    for (let x = startingLetter; x < startingLetter + shipLength; x++) {
+      if (cpuBoard[startingRow][(startingLetter - 1)] && cpuBoard[startingRow][(startingLetter)] && cpuBoard[startingRow][(startingLetter + 1)] !== 0) {
+        placeCpuCruiser(cpuBoard);
+        return;     
       } else {
-      cpuBoardTiles[x].style.backgroundColor = 'gray';
-      cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
+          console.log(` X VALUE: ${x}`)
+          console.log('does contain 0');
+          cpuBoard[startingRow][x] = shipLength;
+          cpuBoardTiles[x + (startingRow * 10)].style.backgroundColor = 'gray';
       }
     }
-  } 
+  console.log(cpuBoard);
 }
 
-function placeCpuDestroyer(cpuBoard) {
-  const shipLength = 2;
-  const startLocation = Math.floor(Math.random() * 100);
-  const startingRow = Math.floor(startLocation / 10);
-  const startingLetter = Math.floor(startLocation % 10);
-  const endingRow = Math.floor((startLocation + shipLength) / 10);
-  const endingLetter = Math.floor((startLocation + shipLength) % 10);
-  if ((startingRow !== endingRow) || (startingLetter !== endingLetter)) {
-    return;
-  } else {
-    for (let x = startLocation; x < startLocation + shipLength; x++) {
-      if (cpuBoard[x] !== 0) {
-        return;
+function placeCpuDestroyer (cpuBoard) {
+
+  const shipLength = ships[1].length;
+
+  let randomStartLocation;
+  let startingRow = 1;
+  let endingRow = 2;
+  let startingLetter = 1;
+  let endingLetter = 2;
+
+  while (startingRow !== endingRow) {
+    console.log('STARTING WHILE LOOP');
+    randomStartLocation = Math.floor(Math.random() * 100);
+    console.log(`RANDOM START: ${randomStartLocation}`)
+
+    startingRow = Math.floor(randomStartLocation / 10);
+    console.log(`STARTINGROW: ${startingRow}`)
+    endingRow = Math.floor((randomStartLocation + shipLength) / 10);
+    console.log(`ENDINGROW: ${endingRow}`)
+    endingLetter = Math.floor((randomStartLocation + shipLength) % 10);
+    console.log(`ENDINGLETTER: ${endingLetter}`)
+    startingLetter = Math.floor(randomStartLocation % 10);
+    console.log(`STARTINGLETTER: ${startingLetter}`)
+    } 
+
+    for (let x = startingLetter; x < startingLetter + shipLength; x++) {
+      if (cpuBoard[startingRow][(startingLetter - 1)] && cpuBoard[startingRow][(startingLetter)] !== 0) {
+        placeCpuDestroyer(cpuBoard);
+        return;     
       } else {
-      cpuBoardTiles[x].style.backgroundColor = 'gray';
-      cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
+          console.log(` X VALUE: ${x}`)
+          console.log('does contain 0');
+          cpuBoard[startingRow][x] = shipLength;
+          cpuBoardTiles[x + (startingRow * 10)].style.backgroundColor = 'gray';
       }
     }
-  } 
+  console.log(cpuBoard);
 }
 
-function placeCpuSubmarine(cpuBoard) {
-  const shipLength = 1;
-  const startLocation = Math.floor(Math.random() * 100);
-  const startingRow = Math.floor(startLocation / 10);
-  const startingLetter = Math.floor(startLocation % 10);
-  const endingRow = Math.floor((startLocation + shipLength) / 10);
-  const endingLetter = Math.floor((startLocation + shipLength) % 10);
-  if ((startingRow !== endingRow) || (startingLetter !== endingLetter)) {
-    return;
-  } else {
-    for (let x = startLocation; x < startLocation + shipLength; x++) {
-      if (cpuBoard[x] !== 0) {
-        return;
+function placeCpuSubmarine (cpuBoard) {
+
+  const shipLength = ships[0].length;
+
+  let randomStartLocation;
+  let startingRow = 1;
+  let endingRow = 2;
+  let startingLetter = 1;
+  let endingLetter = 2;
+
+  while (startingRow !== endingRow) {
+    console.log('STARTING WHILE LOOP');
+    randomStartLocation = Math.floor(Math.random() * 100);
+    console.log(`RANDOM START: ${randomStartLocation}`)
+
+    startingRow = Math.floor(randomStartLocation / 10);
+    console.log(`STARTINGROW: ${startingRow}`)
+    endingRow = Math.floor((randomStartLocation + shipLength) / 10);
+    console.log(`ENDINGROW: ${endingRow}`)
+    endingLetter = Math.floor((randomStartLocation + shipLength) % 10);
+    console.log(`ENDINGLETTER: ${endingLetter}`)
+    startingLetter = Math.floor(randomStartLocation % 10);
+    console.log(`STARTINGLETTER: ${startingLetter}`)
+    } 
+
+    for (let x = startingLetter; x < startingLetter + shipLength; x++) {
+      if (cpuBoard[startingRow][x] !== 0) {
+        placeCpuSubmarine(cpuBoard);
+        return;     
       } else {
-      cpuBoardTiles[x].style.backgroundColor = 'gray';
-      cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
+          console.log(` X VALUE: ${x}`)
+          console.log('does contain 0');
+          cpuBoard[startingRow][x] = shipLength;
+          cpuBoardTiles[x + (startingRow * 10)].style.backgroundColor = 'gray';
       }
     }
-  } 
+  console.log(cpuBoard);
 }
