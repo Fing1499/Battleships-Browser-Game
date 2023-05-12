@@ -73,11 +73,7 @@ playerBoardTiles.forEach(playerdot => {
 function test() {
   console.log('test')
 }
-cpuBoardTiles.forEach(cpudot => {
-  cpudot.addEventListener('click', () => {
-    console.log('cpu tiles working');
-  })
-})
+
 
 //! ------------------------------- Functions ------------------------------- !//
 
@@ -110,16 +106,18 @@ function initEasy() {
   turn = 1;
   winner = null;
   // renderEasy();
+  renderEasy();
 }
 // function initHard() {
 
 // // }
-// function renderEasy() {
-//   renderComputerBoard();
-//   renderPlayerBoard();
-//   renderMessage();
-//   renderControls();
-// }
+function renderEasy() {
+  if (turn === 1) {
+    handleShot(cpuBoard)
+  } else if (turn === -1) {
+    handleCpuShot(playerBoard);
+  }
+}
  function renderComputerBoard() {
   cpuBoard.forEach(function(cpuNumArray, cpuLetterIdx) {
     cpuNumArray.forEach(function(cpuCellValue, cpuNumIdx) {
@@ -138,10 +136,83 @@ function initEasy() {
       })
     })
 };
+//! -------------------------------- SHOOT FUNCTIONS --------------------------- !//
+function handleShot(cpuBoard) {
+  cpuBoardTiles.forEach(cpudot => {
+    cpudot.addEventListener('click', shoot => {
+      takeShot(shoot, cpuBoard, cpuBoardTiles)
+      console.log('SHOOT')
+    });
+    cpudot.addEventListener('mouseenter', function (e) {
+      e.target.classList.add('previewShotPlacement')
+    });
+    cpudot.addEventListener('mouseleave', function (e) {
+      console.log('mouseleave')
+      e.target.classList.remove('previewShotPlacement')
+    });
+  });
+}
+//TODO MOVE BELOW SHIP PLACEMENT SO BACKGROUND COLOUR CAN CHANGE
+function takeShot(shoot, cpuBoard, cpuBoardTiles) {
+  let shotLocation = Array.from(cpuBoardTiles).indexOf(shoot.target)
+  console.log(shotLocation)
+  console.log(cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)])
+  if (cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 0) {
+    console.log('MISS')
+    
+    cpuBoardTiles[shotLocation].classList.add('miss')
+  } else if (cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 5) {
+    console.log('HIT')
+    
+    cpuBoardTiles[shotLocation].classList.add('hit')
+  } else if (cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 4){
+    console.log('HIT')
+    
+    cpuBoardTiles[shotLocation].classList.add('hit')
+  } else if(cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 3) {
+    console.log('HIT')
+    
+    cpuBoardTiles[shotLocation].classList.add('hit')
+  } else if(cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 2) {
+    console.log('HIT')
+   
+    cpuBoardTiles[shotLocation].classList.add('hit')
+  } else if(cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 1) {
+    console.log('HIT')
 
-// handleShot() {
+    cpuBoardTiles[shotLocation].classList.add('hit')
+  }
+  turn *= -1;
+  renderEasy();
+  return;
+}
+// handleShot(cpuBoard, cpuBoardTiles)
 
-// }
+function handleCpuShot(playerBoard) {
+  let cpuShotLocation = Math.floor(Math.random() * 100);
+  console.log(`CPU SHOT LOCATION: ${cpuShotLocation}`);
+  if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 0) {
+    console.log('COMPUTER MISS');
+
+  } else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 5) {
+    console.log('COMPUTER HIT CARRIER')
+
+  }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 4) {
+    console.log('COMPUTER HIT BATTLESHIP')
+
+  }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 3) {
+    console.log('COMPUTER HIT CRUISER')
+
+  }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 2) {
+    console.log('COMPUTER HIT DESTROYER')
+
+  }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 1) {
+    console.log('COMPUTER HIT SUB')
+  }
+  turn *= -1;
+  renderEasy();
+  return;
+}
 // cpuChoiceEasy() {
 
 // }

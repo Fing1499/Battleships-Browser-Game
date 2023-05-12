@@ -85,6 +85,15 @@ body {
 .dot.previewShipPlacement {
     background-color: rgb(177, 177, 177);
 }
+.dot.previewShotPlacement{
+    background-color: red;
+}
+.miss {
+    background-color: rgb(2, 2, 57);
+}
+.hit {
+    background-color: rgb(79, 0, 0);
+}
 .coords {
     display: flex;
     justify-content: center;
