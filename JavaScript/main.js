@@ -29,9 +29,8 @@ ships = [
 
 //? ---------------------------- State Variables ---------------------------- ?//
 
-let winner = null;
-let choice = null;
-let turn = null;
+let winner = false;
+let turn = false;
 
 let carrierPlaced = false;
 let battleshipPlaced = false;
@@ -45,6 +44,8 @@ let cpuCruiserPlaced = false;
 let cpuDestroyerPlaced = false;
 let cpuSubmarinePlaced = false;
 
+
+
 //* ---------------------------- Cached Elements ---------------------------- *//
 
 const startScreen = document.querySelector('.difficulty-screen');
@@ -52,6 +53,8 @@ const cpuBoardTiles = document.querySelectorAll('#cpu-board > .dot');
 const playerBoardTiles = document.querySelectorAll('#player-board > .dot');
 const easyButton = document.querySelector('.easy');
 const hardButton = document.querySelector('.hard');
+const playAgainButton = document.querySelector('.play-again');
+const title = document.querySelector('.UI-title');
 
 //* ---------------------------- Event Listeners ---------------------------- *//
 
@@ -68,6 +71,9 @@ playerBoardTiles.forEach(playerdot => {
   });
 });
 
+easyButton.addEventListener('click', initEasy);
+
+// hardButton.addEventListener('click', initHard);
 
 
 function test() {
@@ -103,20 +109,19 @@ function initEasy() {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   ];
-  turn = 1;
+  previousCpuShots = [];
+  turn = false;
   winner = null;
-  // renderEasy();
+  startScreen.style.visibilty = 'hidden';
   renderEasy();
 }
 // function initHard() {
 
-// // }
+
 function renderEasy() {
-  if (turn === 1) {
-    handleShot(cpuBoard)
-  } else if (turn === -1) {
-    handleCpuShot(playerBoard);
-  }
+
+    handleShot(cpuBoard);
+
 }
  function renderComputerBoard() {
   cpuBoard.forEach(function(cpuNumArray, cpuLetterIdx) {
@@ -136,13 +141,50 @@ function renderEasy() {
       })
     })
 };
+
+function checkForWinner(cpuBoard, playerBoard) {
+
+  if (checkForPlayerWinner(cpuBoard) === true) {
+    playAgainButton.style.visibilty = 'visible';
+    title.innerText = 'PLAYER WINS - WELL DONE';
+    title.style.color = 'green';
+
+  } else if (CheckForCpuWinner(playerBoard) === true) {
+    playAgainButton.style.visibilty = 'visible';
+    title.innerText = 'COMPUTER WINS - GAME OVER';
+    title.style.color = 'red';
+  }
+}
+
+function checkForPlayerWinner(cpuBoard) {
+  return cpuBoard.every(cpuletter => {
+     return cpuletter.every(cpuall => {
+      return cpuall === 0;
+    });
+  });
+}
+
+function CheckForCpuWinner(playerBoard) {
+  return playerBoard.every(letter => {
+    return letter.every(all => {
+      return all === 0;
+    });
+  });
+}
+
+
+
+
 //! -------------------------------- SHOOT FUNCTIONS --------------------------- !//
 function handleShot(cpuBoard) {
   cpuBoardTiles.forEach(cpudot => {
     cpudot.addEventListener('click', shoot => {
-      takeShot(shoot, cpuBoard, cpuBoardTiles)
-      console.log('SHOOT')
-    });
+      if (turn === false) {
+        takeShot(shoot, cpuBoard, cpuBoardTiles);
+        console.log('SHOOT');
+        // cpudot.removeEventListener('click', takeShot)
+      }
+     });
     cpudot.addEventListener('mouseenter', function (e) {
       e.target.classList.add('previewShotPlacement')
     });
@@ -152,73 +194,93 @@ function handleShot(cpuBoard) {
     });
   });
 }
-//TODO MOVE BELOW SHIP PLACEMENT SO BACKGROUND COLOUR CAN CHANGE
+
+//TODO MOVE BELOW SHIP PLACEMENT SO BACKGROUND COLOUR CAN CHANGE ALSO REMOVE PREVIOUS SHOTS FROM  POSSIBLE TARGETS
 function takeShot(shoot, cpuBoard, cpuBoardTiles) {
   let shotLocation = Array.from(cpuBoardTiles).indexOf(shoot.target)
   console.log(shotLocation)
   console.log(cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)])
   if (cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 0) {
     console.log('MISS')
-    
     cpuBoardTiles[shotLocation].classList.add('miss')
   } else if (cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 5) {
     console.log('HIT')
-    
+    cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] = 0;
+    cpuBoardTiles[shotLocation].style.backgroundColor = '';
     cpuBoardTiles[shotLocation].classList.add('hit')
   } else if (cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 4){
     console.log('HIT')
-    
+    cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] = 0;
+    cpuBoardTiles[shotLocation].style.backgroundColor = '';
     cpuBoardTiles[shotLocation].classList.add('hit')
   } else if(cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 3) {
     console.log('HIT')
-    
+    cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] = 0;
+    cpuBoardTiles[shotLocation].style.backgroundColor = '';
     cpuBoardTiles[shotLocation].classList.add('hit')
   } else if(cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 2) {
     console.log('HIT')
-   
+    cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] = 0;
+    cpuBoardTiles[shotLocation].style.backgroundColor = '';
     cpuBoardTiles[shotLocation].classList.add('hit')
   } else if(cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 1) {
     console.log('HIT')
-
+    cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] = 0;
+    cpuBoardTiles[shotLocation].style.backgroundColor = '';
     cpuBoardTiles[shotLocation].classList.add('hit')
   }
-  turn *= -1;
-  renderEasy();
-  return;
+  turn = true;
+  console.log(cpuBoard)
+  handleCpuShotEasy(playerBoard);
+  checkForWinner(cpuBoard, playerBoard);
 }
-// handleShot(cpuBoard, cpuBoardTiles)
 
-function handleCpuShot(playerBoard) {
-  let cpuShotLocation = Math.floor(Math.random() * 100);
-  console.log(`CPU SHOT LOCATION: ${cpuShotLocation}`);
-  if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 0) {
-    console.log('COMPUTER MISS');
 
-  } else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 5) {
-    console.log('COMPUTER HIT CARRIER')
-
-  }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 4) {
-    console.log('COMPUTER HIT BATTLESHIP')
-
-  }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 3) {
-    console.log('COMPUTER HIT CRUISER')
-
-  }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 2) {
-    console.log('COMPUTER HIT DESTROYER')
-
-  }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 1) {
-    console.log('COMPUTER HIT SUB')
+function handleCpuShotEasy(playerBoard) {
+  if (turn === true) {
+    let cpuShotLocation = Math.floor(Math.random() * 100);
+    if (previousCpuShots.includes(cpuShotLocation)) {
+      handleCpuShotEasy(playerBoard);
+    } else {
+    console.log(`CPU SHOT LOCATION: ${cpuShotLocation}`);
+    if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 0) {
+      console.log('COMPUTER MISS');
+      playerBoardTiles[cpuShotLocation].classList.add('miss')
+    } else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 5) {
+      console.log('COMPUTER HIT CARRIER')
+      playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
+      playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
+      playerBoardTiles[cpuShotLocation].classList.add('hit')
+    }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 4) {
+      console.log('COMPUTER HIT BATTLESHIP')
+      playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
+      playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
+      playerBoardTiles[cpuShotLocation].classList.add('hit')
+    }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 3) {
+      console.log('COMPUTER HIT CRUISER')
+      playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
+      playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
+      playerBoardTiles[cpuShotLocation].classList.add('hit')
+    }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 2) {
+      console.log('COMPUTER HIT DESTROYER')
+      playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
+      playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
+      playerBoardTiles[cpuShotLocation].classList.add('hit')
+    }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 1) {
+      console.log('COMPUTER HIT SUB')
+      playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
+      playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
+      playerBoardTiles[cpuShotLocation].classList.add('hit')
+    }
+    turn = false;
+    previousCpuShots.push(cpuShotLocation);
+    console.log(playerBoard)
+    console.log(previousCpuShots);
   }
-  turn *= -1;
-  renderEasy();
-  return;
 }
-// cpuChoiceEasy() {
+checkForWinner(cpuBoard, playerBoard);
+}
 
-// }
-// cpuChoiceHard() {
-
-// }
 
 //! ----------------------- SHIP PLACEMENT ----------------------- !//
 
@@ -246,8 +308,7 @@ function handleShipPlacement(evt, playerBoard, playerdot) {
       submarinePlaced = true;       
       placeCpuShips(cpuBoard);   
   } else if (submarinePlaced === true) {
-    
-    // console.log(cpuBoard)
+
   }
 }
 

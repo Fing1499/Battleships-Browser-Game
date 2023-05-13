@@ -224,6 +224,6 @@ body {
     }
 }
  
- .difficulty-screen, .easy, .hard {
+ .difficulty-screen {
     visibility:  hidden;
  }
