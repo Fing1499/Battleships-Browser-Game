@@ -97,6 +97,11 @@ function initEasy() {
   });
   document.addEventListener('keydown', keypress => {
     rotation *= -1;
+    if (rotation === 1) {
+      cpuDialogueBox.innerText = "> ROTATION: ⇨"
+    } else {
+      cpuDialogueBox.innerText = "> ROTATION: ⇩"
+    }
   });
  
 }
@@ -275,14 +280,14 @@ function placeCarrier(evt, playerBoard) {
           playerBoardTiles[x].style.backgroundColor = 'gray';
           playerBoard[Math.floor(x / 10)][x % 10] = shipLength;
           carrierPlaced = true;
-          cpuDialogueBox.innerText = "CARRIER PLACED!"
+          cpuDialogueBox.innerText = "> CARRIER PLACED!"
         } else {
           carrierPlaced = false;
         }
       }
     } else {
       carrierPlaced = false;
-      cpuDialogueBox.innerText = "SHIP DOES NOT FIT! PICK A NEW LOCATION"
+      cpuDialogueBox.innerText = "> SHIP DOES NOT FIT! PICK A NEW LOCATION"
     }
   } else if (rotation === -1) {
     if (endingRow < shipLength + 1) {
@@ -291,13 +296,13 @@ function placeCarrier(evt, playerBoard) {
           playerBoardTiles[x].style.backgroundColor = 'gray';
           playerBoard[Math.floor(x / 10)][x % 10] = shipLength;
           carrierPlaced = true;
-          cpuDialogueBox.innerText = "CARRIER PLACED!"
+          cpuDialogueBox.innerText = "> CARRIER PLACED!"
         } else {
           carrierPlaced = false;
         }
       }
     carrierPlaced = false;
-    cpuDialogueBox.innerText = "SHIP DOES NOT FIT! PICK A NEW LOCATION"
+    cpuDialogueBox.innerText = "> SHIP DOES NOT FIT! PICK A NEW LOCATION"
     }
   }
 }
