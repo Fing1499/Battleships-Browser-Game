@@ -57,52 +57,22 @@ const easyButton = document.querySelector('.easy');
 const hardButton = document.querySelector('.hard');
 const playAgainButton = document.querySelector('.play-again');
 const title = document.querySelector('.UI-title');
-
+const dialogueBox = document.querySelector('#dialogue-box');
+const cpuDialogueBox = document.querySelector('#cpu-dialogue-box')
 //* ---------------------------- Event Listeners ---------------------------- *//
 
 
-playerBoardTiles.forEach(playerdot => {
-  playerdot.addEventListener('click', evt => {
-    handleShipPlacement(evt, playerBoard)
-  });
-  playerdot.addEventListener('mouseenter', function (e) {
-    e.target.classList.add('previewShipPlacement')
-  });
-  playerdot.addEventListener('mouseleave', function (e) {
-    console.log('mouseleave')
-    e.target.classList.remove('previewShipPlacement')
-  });
-});
-document.addEventListener('keydown', keypress => {
-  rotation *= -1;
-  console.log(rotation);
-});
-// playerBoardTiles.forEach(playerdot => {
-//   playerdot.addEventListener('click', evt => {
-//     handleShipPlacement(evt, playerBoard)
-//   });
-//   playerdot.addEventListener('mouseenter', function (e) {
-//     for (let x = e; x <= 5; x++) {
-//     e.target.classList.add('previewShipPlacement')
-//     }
-//   });
-//   playerdot.addEventListener('mouseleave', function (e) {
-//     console.log('mouseleave')
-//     e.target.classList.remove('previewShipPlacement')
-//   });
-// });
-
 easyButton.addEventListener('click', initEasy);
-
-// hardButton.addEventListener('click', initHard);
-
-
+playAgainButton.addEventListener('click', restart);
 
 
 //! ------------------------------- Functions ------------------------------- !//
 
-initEasy();
+
+
 function initEasy() {
+
+  
     cpuBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -130,53 +100,29 @@ function initEasy() {
   previousCpuShots = [];
   turn = false;
   winner = null;
-  startScreen.style.visibilty = 'hidden';
-  renderEasy();
-}
-// function initHard() {
+  renderEasy(startScreen);
+  dialogueBox.innerText = "> PLACE YOUR CARRIER";
 
-
-function renderEasy() {
-
-    handleShot(cpuBoard);
-
-}
-
-
-function checkForWinner(cpuBoard, playerBoard) {
-
-  if (checkForPlayerWinner(cpuBoard) === true) {
-    playAgainButton.style.visibilty = 'visible';
-    title.innerText = 'PLAYER WINS - WELL DONE';
-    title.style.color = 'green';
-
-  } else if (CheckForCpuWinner(playerBoard) === true) {
-    playAgainButton.style.visibilty = 'visible';
-    title.innerText = 'COMPUTER WINS - GAME OVER';
-    title.style.color = 'red';
-  }
-}
-
-function checkForPlayerWinner(cpuBoard) {
-  return cpuBoard.every(cpuletter => {
-     return cpuletter.every(cpuall => {
-      return cpuall === 0;
+  playerBoardTiles.forEach(playerdot => {
+    playerdot.addEventListener('click', evt => {
+      handleShipPlacement(evt, playerBoard);
+      
+    });
+    playerdot.addEventListener('mouseenter', function (e) {
+      e.target.classList.add('previewShipPlacement')
+    });
+    playerdot.addEventListener('mouseleave', function (e) {
+      console.log('mouseleave')
+      e.target.classList.remove('previewShipPlacement')
     });
   });
-}
-
-function CheckForCpuWinner(playerBoard) {
-  return playerBoard.every(letter => {
-    return letter.every(all => {
-      return all === 0;
-    });
+  document.addEventListener('keydown', keypress => {
+    rotation *= -1;
+    console.log(rotation);
   });
+ 
 }
 
-
-
-
-//! -------------------------------- SHOOT FUNCTIONS --------------------------- !//
 function handleShot(cpuBoard) {
   cpuBoardTiles.forEach(cpudot => {
     cpudot.addEventListener('click', shoot => {
@@ -196,36 +142,86 @@ function handleShot(cpuBoard) {
   });
 }
 
+function renderEasy() {
+  startScreen.style.visibility = "hidden";
+  playAgainButton.style.visibility = "hidden";
+
+
+}
+function restart() {
+  startScreen.style.visibility = 'visible';
+}
+
+function checkForWinner(cpuBoard, playerBoard) {
+
+  if (checkForPlayerWinner(cpuBoard) === true) {
+    playAgainButton.style.visibilty = 'visible';
+    title.innerText = 'PLAYER WINS - WELL DONE';
+    title.style.color = 'green';
+    title.style.textShadow ="0 0 .5vmin green"
+    playAgainButton.style.visibility = "visible";
+
+  } else if (CheckForCpuWinner(playerBoard) === true) {
+    playAgainButton.style.visibilty = 'visible';
+    title.innerText = 'COMPUTER WINS - GAME OVER';
+    title.style.color = 'red';
+    title.style.textShadow ="0 0 .5vmin red"
+    playAgainButton.style.visibility = "visible";
+  }
+}
+
+function checkForPlayerWinner(cpuBoard) {
+  return cpuBoard.every(cpunum => {
+     return cpunum.every(cpuall => {
+      return cpuall === 0;
+    });
+  });
+}
+
+function CheckForCpuWinner(playerBoard) {
+  return playerBoard.every(num => {
+    return num.every(all => {
+      return all === 0;
+    });
+  });
+}
+
+
+
+
+//! -------------------------------- SHOOT FUNCTIONS --------------------------- !//
+
+
 //TODO MOVE BELOW SHIP PLACEMENT SO BACKGROUND COLOUR CAN CHANGE ALSO REMOVE PREVIOUS SHOTS FROM  POSSIBLE TARGETS
 function takeShot(shoot, cpuBoard, cpuBoardTiles) {
   let shotLocation = Array.from(cpuBoardTiles).indexOf(shoot.target)
   console.log(shotLocation)
   console.log(cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)])
   if (cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 0) {
-    console.log('MISS')
+    dialogueBox.innerText = "> YOU MISSED";
     cpuBoardTiles[shotLocation].classList.add('miss')
   } else if (cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 5) {
-    console.log('HIT')
+    dialogueBox.innerText = "> YOU LANDED A HIT";
     cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] = 0;
     cpuBoardTiles[shotLocation].style.backgroundColor = '';
     cpuBoardTiles[shotLocation].classList.add('hit')
   } else if (cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 4){
-    console.log('HIT')
+    dialogueBox.innerText = "> NICE SHOT";
     cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] = 0;
     cpuBoardTiles[shotLocation].style.backgroundColor = '';
     cpuBoardTiles[shotLocation].classList.add('hit')
   } else if(cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 3) {
-    console.log('HIT')
+    dialogueBox.innerText = "> GOOD SHOOTING";
     cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] = 0;
     cpuBoardTiles[shotLocation].style.backgroundColor = '';
     cpuBoardTiles[shotLocation].classList.add('hit')
   } else if(cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 2) {
-    console.log('HIT')
+    dialogueBox.innerText = "> HIT";
     cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] = 0;
     cpuBoardTiles[shotLocation].style.backgroundColor = '';
     cpuBoardTiles[shotLocation].classList.add('hit')
   } else if(cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 1) {
-    console.log('HIT')
+    dialogueBox.innerText = "> GREAT SHOT";
     cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] = 0;
     cpuBoardTiles[shotLocation].style.backgroundColor = '';
     cpuBoardTiles[shotLocation].classList.add('hit')
@@ -245,30 +241,30 @@ function handleCpuShotEasy(playerBoard) {
     } else {
     console.log(`CPU SHOT LOCATION: ${cpuShotLocation}`);
     if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 0) {
-      console.log('COMPUTER MISS');
+      cpuDialogueBox.innerText = "> ENEMY MISSED";
       playerBoardTiles[cpuShotLocation].classList.add('miss')
     } else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 5) {
-      console.log('COMPUTER HIT CARRIER')
+      cpuDialogueBox.innerText = "> ENEMY HIT YOUR CARRIER";
       playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
       playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
       playerBoardTiles[cpuShotLocation].classList.add('hit')
     }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 4) {
-      console.log('COMPUTER HIT BATTLESHIP')
+      cpuDialogueBox.innerText = "> ENEMY HIT YOUR BATTLESHIP";
       playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
       playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
       playerBoardTiles[cpuShotLocation].classList.add('hit')
     }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 3) {
-      console.log('COMPUTER HIT CRUISER')
+      cpuDialogueBox.innerText = "> ENEMY HIT YOUR CRUISER";
       playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
       playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
       playerBoardTiles[cpuShotLocation].classList.add('hit')
     }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 2) {
-      console.log('COMPUTER HIT DESTROYER')
+      cpuDialogueBox.innerText = "> ENEMY HIT YOUR DESTROYER";
       playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
       playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
       playerBoardTiles[cpuShotLocation].classList.add('hit')
     }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 1) {
-      console.log('COMPUTER HIT SUB')
+      cpuDialogueBox.innerText = "> ENEMY HIT YOUR SUBMARINE";
       playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
       playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
       playerBoardTiles[cpuShotLocation].classList.add('hit')
@@ -282,33 +278,32 @@ function handleCpuShotEasy(playerBoard) {
 checkForWinner(cpuBoard, playerBoard);
 }
 
-
 //! ----------------------- SHIP PLACEMENT ----------------------- !//
 function handleShipPlacement(evt, playerBoard, playerdot) {
-  console.log('playershipplacement')
   if (carrierPlaced === false) {
     placeCarrier(evt, playerBoard, ships[4].length);
-    console.log('carrier')
-    console.log(playerBoard);
+    dialogueBox.innerText = "> PLACE YOUR BATTLESHIP";
   } else if (battleshipPlaced === false) {
       placeBattleship(evt, playerBoard, ships[3].length );
-      console.log('battleship')
+      dialogueBox.innerText = "> PLACE YOUR CRUISER";
   } else if (cruiserPlaced === false) {
       placeCruiser(evt, playerBoard, ships[2].length);
-      console.log('cruiser')
+      dialogueBox.innerText = "> PLACE YOUR DESTORYER";
     } else if (destroyerPlaced === false) {        
       placeDestroyer(evt, playerBoard, ships[0].length);
-      console.log('destroyer')
+      dialogueBox.innerText = "> PLACE YOUR SUBMARINE";
   } else if (submarinePlaced === false) {
       placeSubmarine(evt, playerBoard, ships[1].length);
-      console.log('sub')
-      placeCpuShips(cpuBoard);   
+      dialogueBox.innerText = "> TAKE YOUR SHOT!";
+      placeCpuShips(cpuBoard); 
+      cpuDialogueBox.innerText = "> ENEMY SHIPS IN THE WATER!";  
+      handleShot(cpuBoard);
   } else if (submarinePlaced === true) {
 
   }
 }
 
-//TODO ADD ROTATE FUNCTIONALITY AND CHECKFOROVERLAP
+
 function placeCarrier(evt, playerBoard) {
   const shipLength = ships[4].length
   const selection = Array.from(playerBoardTiles).indexOf(evt.target);
@@ -578,7 +573,7 @@ function placeCpuCarrier (cpuBoard) {
           console.log(` X VALUE: ${x}`)
           console.log('does contain 0');
           cpuBoard[startingRow][x] = shipLength;
-          cpuBoardTiles[x + (startingRow * 10)].style.backgroundColor = 'gray';
+          // cpuBoardTiles[x + (startingRow * 10)].style.backgroundColor = 'gray';
           cpuCarrierPlaced = true;
       }
     }
@@ -608,7 +603,7 @@ function placeCpuCarrier (cpuBoard) {
             console.log(` X VALUE: ${x}`)
             console.log('does contain 0');
             cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
-            cpuBoardTiles[x].style.backgroundColor = 'gray';
+            // cpuBoardTiles[x].style.backgroundColor = 'gray';
             cpuCarrierPlaced = true;
         }
       }
@@ -648,7 +643,7 @@ function placeCpuBattleship (cpuBoard) {
           console.log(` X VALUE: ${x}`)
           console.log('does contain 0');
           cpuBoard[startingRow][x] = shipLength;
-          cpuBoardTiles[x + (startingRow * 10)].style.backgroundColor = 'gray';
+          // cpuBoardTiles[x + (startingRow * 10)].style.backgroundColor = 'gray';
           cpuBattleshipPlaced = true;
       }
     }
@@ -678,7 +673,7 @@ function placeCpuBattleship (cpuBoard) {
             console.log(` X VALUE: ${x}`)
             console.log('does contain 0');
             cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
-            cpuBoardTiles[x].style.backgroundColor = 'gray';
+            // cpuBoardTiles[x].style.backgroundColor = 'gray';
             cpuBattleshipPlaced = true;
         }
       }
@@ -718,7 +713,7 @@ function placeCpuCruiser (cpuBoard) {
           console.log(` X VALUE: ${x}`)
           console.log('does contain 0');
           cpuBoard[startingRow][x] = shipLength;
-          cpuBoardTiles[x + (startingRow * 10)].style.backgroundColor = 'gray';
+          // cpuBoardTiles[x + (startingRow * 10)].style.backgroundColor = 'gray';
           cpuCruiserPlaced = true;
       }
     }
@@ -748,7 +743,7 @@ function placeCpuCruiser (cpuBoard) {
             console.log(` X VALUE: ${x}`)
             console.log('does contain 0');
             cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
-            cpuBoardTiles[x].style.backgroundColor = 'gray';
+            // cpuBoardTiles[x].style.backgroundColor = 'gray';
             cpuCruiserPlaced = true;
         }
       }
@@ -788,7 +783,7 @@ function placeCpuDestroyer (cpuBoard) {
           console.log(` X VALUE: ${x}`)
           console.log('does contain 0');
           cpuBoard[startingRow][x] = shipLength;
-          cpuBoardTiles[x + (startingRow * 10)].style.backgroundColor = 'gray';
+          // cpuBoardTiles[x + (startingRow * 10)].style.backgroundColor = 'gray';
           cpuDestroyerPlaced = true;
       }
     }
@@ -818,7 +813,7 @@ function placeCpuDestroyer (cpuBoard) {
             console.log(` X VALUE: ${x}`)
             console.log('does contain 0');
             cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
-            cpuBoardTiles[x].style.backgroundColor = 'gray';
+            // cpuBoardTiles[x].style.backgroundColor = 'gray';
             cpuDestroyerPlaced = true;
         }
       }
@@ -856,7 +851,7 @@ function placeCpuSubmarine (cpuBoard) {
           console.log(` X VALUE: ${x}`)
           console.log('does contain 0');
           cpuBoard[startingRow][x] = shipLength;
-          cpuBoardTiles[x + (startingRow * 10)].style.backgroundColor = 'gray';
+          // cpuBoardTiles[x + (startingRow * 10)].style.backgroundColor = 'gray';
           cpuSubmarinePlaced = true;
       }
     }
