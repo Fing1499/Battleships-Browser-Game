@@ -1,4 +1,3 @@
-// ! ----------------------------- Constants ----------------------------- ! //
 
 coords = [
   {letter:'A'},
@@ -21,7 +20,6 @@ ships = [
   {type: 'carrier', length: 5}
 ];
 
-//? ---------------------------- State Variables ---------------------------- ?//
 
 let winner = false;
 let turn = false;
@@ -40,8 +38,6 @@ let cpuSubmarinePlaced = false;
 
 let rotation = 1;
 
-//* ---------------------------- Cached Elements ---------------------------- *//
-
 const startScreen = document.querySelector('.difficulty-screen');
 const cpuBoardTiles = document.querySelectorAll('#cpu-board > .dot');
 const playerBoardTiles = document.querySelectorAll('#player-board > .dot');
@@ -51,16 +47,9 @@ const playAgainButton = document.querySelector('.play-again');
 const title = document.querySelector('.UI-title');
 const dialogueBox = document.querySelector('#dialogue-box');
 const cpuDialogueBox = document.querySelector('#cpu-dialogue-box')
-//* ---------------------------- Event Listeners ---------------------------- *//
-
 
 easyButton.addEventListener('click', initEasy);
 playAgainButton.addEventListener('click', restart);
-
-
-//! ------------------------------- Functions ------------------------------- !//
-
-
 
 function initEasy() {
 
@@ -98,7 +87,6 @@ function initEasy() {
   playerBoardTiles.forEach(playerdot => {
     playerdot.addEventListener('click', evt => {
       handleShipPlacement(evt, playerBoard);
-      
     });
     playerdot.addEventListener('mouseenter', function (e) {
       e.target.classList.add('previewShipPlacement')
@@ -140,14 +128,12 @@ function restart() {
 }
 
 function checkForWinner(cpuBoard, playerBoard) {
-
   if (checkForPlayerWinner(cpuBoard) === true) {
     playAgainButton.style.visibilty = 'visible';
     title.innerText = 'PLAYER WINS - WELL DONE';
     title.style.color = 'green';
     title.style.textShadow ="0 0 .5vmin green"
     playAgainButton.style.visibility = "visible";
-
   } else if (CheckForCpuWinner(playerBoard) === true) {
     playAgainButton.style.visibilty = 'visible';
     title.innerText = 'COMPUTER WINS - GAME OVER';
@@ -173,13 +159,6 @@ function CheckForCpuWinner(playerBoard) {
   });
 }
 
-
-
-
-//! -------------------------------- SHOOT FUNCTIONS --------------------------- !//
-
-
-//TODO MOVE BELOW SHIP PLACEMENT SO BACKGROUND COLOUR CAN CHANGE ALSO REMOVE PREVIOUS SHOTS FROM  POSSIBLE TARGETS
 function takeShot(shoot, cpuBoard, cpuBoardTiles) {
   let shotLocation = Array.from(cpuBoardTiles).indexOf(shoot.target)
   if (cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 0) {
@@ -215,7 +194,6 @@ function takeShot(shoot, cpuBoard, cpuBoardTiles) {
   handleCpuShotEasy(playerBoard);
   checkForWinner(cpuBoard, playerBoard);
 }
-
 
 function handleCpuShotEasy(playerBoard) {
   if (turn === true) {
@@ -259,7 +237,6 @@ function handleCpuShotEasy(playerBoard) {
 checkForWinner(cpuBoard, playerBoard);
 }
 
-//! ----------------------- SHIP PLACEMENT ----------------------- !//
 function handleShipPlacement(evt, playerBoard, playerdot) {
   if (carrierPlaced === false) {
     placeCarrier(evt, playerBoard, ships[4].length);
@@ -284,7 +261,6 @@ function handleShipPlacement(evt, playerBoard, playerdot) {
   }
 }
 
-
 function placeCarrier(evt, playerBoard) {
   const shipLength = ships[4].length
   const selection = Array.from(playerBoardTiles).indexOf(evt.target);
@@ -297,9 +273,7 @@ function placeCarrier(evt, playerBoard) {
       for (let x = selection; x < selection + shipLength; x++) {
         if (playerBoard[Math.floor(x / 10)][x % 10] === 0) {
           playerBoardTiles[x].style.backgroundColor = 'gray';
-          //divides tile index by 10 for first coordinate, then takes remainder of x/10 for second coordinate then sets those to 5s to represent carrier
           playerBoard[Math.floor(x / 10)][x % 10] = shipLength;
-          // playerBoardTiles[x].removeEventListener('click', handlePlayerShipPlacement);
           carrierPlaced = true;
           cpuDialogueBox.innerText = "CARRIER PLACED!"
         } else {
