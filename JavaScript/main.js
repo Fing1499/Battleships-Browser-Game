@@ -134,15 +134,17 @@ function restart() {
 function checkForWinner(cpuBoard, playerBoard) {
   if (checkForPlayerWinner(cpuBoard) === true) {
     playAgainButton.style.visibilty = 'visible';
-    title.innerText = 'PLAYER WINS - WELL DONE';
+    title.innerText = 'PLAYER WINS! - WELL DONE';
     title.style.color = 'green';
     title.style.textShadow ="0 0 .5vmin green"
+    title.style.animation = "bob 1s infinite";
     playAgainButton.style.visibility = "visible";
   } else if (CheckForCpuWinner(playerBoard) === true) {
     playAgainButton.style.visibilty = 'visible';
     title.innerText = 'COMPUTER WINS - GAME OVER';
     title.style.color = 'red';
     title.style.textShadow ="0 0 .5vmin red"
+    title.style.animation = "bob 1s infinite";
     playAgainButton.style.visibility = "visible";
   }
 }

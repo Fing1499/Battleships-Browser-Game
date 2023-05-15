@@ -37,7 +37,7 @@ body {
     font-size: 6vmin;
     font-family: 'Russo One', sans-serif;
     text-shadow: 0 0 .5vmin blue;
-    margin-bottom: 4vmin;
+    margin-bottom: 2vmin;
 }
 
 #cpu-board {
@@ -315,6 +315,16 @@ body {
         transform: scale(1);
     } 50% {
         transform: scale(0.7);
+    } 100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes bob {
+    0% {
+        transform: scale(1);
+    } 50% {
+        transform: scale(0.8);
     } 100% {
         transform: scale(1);
     }
