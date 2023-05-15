@@ -52,8 +52,7 @@ playAgainButton.addEventListener('click', restart);
 
 function initEasy() {
 
-  
-    cpuBoard = [
+  cpuBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -80,8 +79,9 @@ function initEasy() {
   previousCpuShots = [];
   turn = false;
   winner = null;
-  renderEasy(startScreen);
+  renderEasy(startScreen, cpuBoardTiles, playerBoardTiles);
   dialogueBox.innerText = "> PLACE YOUR CARRIER (5 TILES)";
+
 
   playerBoardTiles.forEach(playerdot => {
     playerdot.addEventListener('click', evt => {
@@ -113,10 +113,10 @@ function handleShot(cpuBoard) {
       }
      });
     cpudot.addEventListener('mouseenter', function (e) {
-      e.target.classList.add('previewShotPlacement')
+      e.target.classList.add('previewShotPlacement');
     });
     cpudot.addEventListener('mouseleave', function (e) {
-      e.target.classList.remove('previewShotPlacement')
+      e.target.classList.remove('previewShotPlacement');
     });
   });
 }
@@ -124,11 +124,10 @@ function handleShot(cpuBoard) {
 function renderEasy() {
   startScreen.style.visibility = "hidden";
   playAgainButton.style.visibility = "hidden";
-
-
 }
 function restart() {
   startScreen.style.visibility = 'visible';
+  window.location.reload();
 }
 
 function checkForWinner(cpuBoard, playerBoard) {
