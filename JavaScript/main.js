@@ -1,23 +1,23 @@
 
 coords = [
-  {letter:'A'},
-  {letter:'B'},
-  {letter:'C'},
-  {letter:'D'},
-  {letter:'E'},
-  {letter:'F'},
-  {letter:'G'},
-  {letter:'H'},
-  {letter:'I'},
-  {letter:'J'}
+  { letter: 'A' },
+  { letter: 'B' },
+  { letter: 'C' },
+  { letter: 'D' },
+  { letter: 'E' },
+  { letter: 'F' },
+  { letter: 'G' },
+  { letter: 'H' },
+  { letter: 'I' },
+  { letter: 'J' }
 ];
 
 ships = [
-  {type: 'submarine', length: 1},
-  {type: 'destroyer', length: 2},
-  {type: 'cruiser', length: 3},
-  {type: 'battleship', length: 4},
-  {type: 'carrier', length: 5}
+  { type: 'submarine', length: 1 },
+  { type: 'destroyer', length: 2 },
+  { type: 'cruiser', length: 3 },
+  { type: 'battleship', length: 4 },
+  { type: 'carrier', length: 5 }
 ];
 
 let winner = false;
@@ -102,7 +102,7 @@ function initEasy() {
       cpuDialogueBox.innerText = "> ROTATION: ⇩"
     }
   });
- 
+
 }
 
 function handleShot(cpuBoard) {
@@ -111,7 +111,7 @@ function handleShot(cpuBoard) {
       if (turn === false) {
         takeShot(shoot, cpuBoard, cpuBoardTiles);
       }
-     });
+    });
     cpudot.addEventListener('mouseenter', function (e) {
       e.target.classList.add('previewShotPlacement');
     });
@@ -135,14 +135,14 @@ function checkForWinner(cpuBoard, playerBoard) {
     playAgainButton.style.visibilty = 'visible';
     title.innerText = 'PLAYER WINS! - WELL DONE';
     title.style.color = 'green';
-    title.style.textShadow ="0 0 .5vmin green"
+    title.style.textShadow = "0 0 .5vmin green"
     title.style.animation = "bob 1s infinite";
     playAgainButton.style.visibility = "visible";
   } else if (CheckForCpuWinner(playerBoard) === true) {
     playAgainButton.style.visibilty = 'visible';
     title.innerText = 'COMPUTER WINS - GAME OVER';
     title.style.color = 'red';
-    title.style.textShadow ="0 0 .5vmin red"
+    title.style.textShadow = "0 0 .5vmin red"
     title.style.animation = "bob 1s infinite";
     playAgainButton.style.visibility = "visible";
   }
@@ -150,7 +150,7 @@ function checkForWinner(cpuBoard, playerBoard) {
 
 function checkForPlayerWinner(cpuBoard) {
   return cpuBoard.every(cpunum => {
-     return cpunum.every(cpuall => {
+    return cpunum.every(cpuall => {
       return cpuall === 0;
     });
   });
@@ -174,22 +174,22 @@ function takeShot(shoot, cpuBoard, cpuBoardTiles) {
     cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] = 0;
     cpuBoardTiles[shotLocation].style.backgroundColor = '';
     cpuBoardTiles[shotLocation].classList.add('hit')
-  } else if (cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 4){
+  } else if (cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 4) {
     dialogueBox.innerText = "> NICE SHOT";
     cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] = 0;
     cpuBoardTiles[shotLocation].style.backgroundColor = '';
     cpuBoardTiles[shotLocation].classList.add('hit')
-  } else if(cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 3) {
+  } else if (cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 3) {
     dialogueBox.innerText = "> GOOD SHOOTING";
     cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] = 0;
     cpuBoardTiles[shotLocation].style.backgroundColor = '';
     cpuBoardTiles[shotLocation].classList.add('hit')
-  } else if(cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 2) {
+  } else if (cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 2) {
     dialogueBox.innerText = "> HIT";
     cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] = 0;
     cpuBoardTiles[shotLocation].style.backgroundColor = '';
     cpuBoardTiles[shotLocation].classList.add('hit')
-  } else if(cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 1) {
+  } else if (cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] === 1) {
     dialogueBox.innerText = "> GREAT SHOT";
     cpuBoard[Math.floor(shotLocation / 10)][(shotLocation % 10)] = 0;
     cpuBoardTiles[shotLocation].style.backgroundColor = '';
@@ -206,40 +206,40 @@ function handleCpuShotEasy(playerBoard) {
     if (previousCpuShots.includes(cpuShotLocation)) {
       handleCpuShotEasy(playerBoard);
     } else {
-    if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 0) {
-      cpuDialogueBox.innerText = "> ENEMY MISSED";
-      playerBoardTiles[cpuShotLocation].classList.add('miss')
-    } else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 5) {
-      cpuDialogueBox.innerText = "> ENEMY HIT YOUR CARRIER";
-      playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
-      playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
-      playerBoardTiles[cpuShotLocation].classList.add('hit')
-    }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 4) {
-      cpuDialogueBox.innerText = "> ENEMY HIT YOUR BATTLESHIP";
-      playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
-      playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
-      playerBoardTiles[cpuShotLocation].classList.add('hit')
-    }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 3) {
-      cpuDialogueBox.innerText = "> ENEMY HIT YOUR CRUISER";
-      playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
-      playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
-      playerBoardTiles[cpuShotLocation].classList.add('hit')
-    }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 2) {
-      cpuDialogueBox.innerText = "> ENEMY HIT YOUR DESTROYER";
-      playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
-      playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
-      playerBoardTiles[cpuShotLocation].classList.add('hit')
-    }  else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 1) {
-      cpuDialogueBox.innerText = "> ENEMY HIT YOUR SUBMARINE";
-      playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
-      playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
-      playerBoardTiles[cpuShotLocation].classList.add('hit')
+      if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 0) {
+        cpuDialogueBox.innerText = "> ENEMY MISSED";
+        playerBoardTiles[cpuShotLocation].classList.add('miss')
+      } else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 5) {
+        cpuDialogueBox.innerText = "> ENEMY HIT YOUR CARRIER";
+        playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
+        playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
+        playerBoardTiles[cpuShotLocation].classList.add('hit')
+      } else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 4) {
+        cpuDialogueBox.innerText = "> ENEMY HIT YOUR BATTLESHIP";
+        playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
+        playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
+        playerBoardTiles[cpuShotLocation].classList.add('hit')
+      } else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 3) {
+        cpuDialogueBox.innerText = "> ENEMY HIT YOUR CRUISER";
+        playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
+        playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
+        playerBoardTiles[cpuShotLocation].classList.add('hit')
+      } else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 2) {
+        cpuDialogueBox.innerText = "> ENEMY HIT YOUR DESTROYER";
+        playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
+        playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
+        playerBoardTiles[cpuShotLocation].classList.add('hit')
+      } else if (playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] === 1) {
+        cpuDialogueBox.innerText = "> ENEMY HIT YOUR SUBMARINE";
+        playerBoard[Math.floor(cpuShotLocation / 10)][(cpuShotLocation % 10)] = 0
+        playerBoardTiles[cpuShotLocation].style.backgroundColor = '';
+        playerBoardTiles[cpuShotLocation].classList.add('hit')
+      }
+      turn = false;
+      previousCpuShots.push(cpuShotLocation);
     }
-    turn = false;
-    previousCpuShots.push(cpuShotLocation);
   }
-}
-checkForWinner(cpuBoard, playerBoard);
+  checkForWinner(cpuBoard, playerBoard);
 }
 
 function handleShipPlacement(evt, playerBoard, playerdot) {
@@ -247,20 +247,20 @@ function handleShipPlacement(evt, playerBoard, playerdot) {
     placeCarrier(evt, playerBoard, ships[4].length);
     dialogueBox.innerText = "> PLACE YOUR BATTLESHIP (4 TILES)";
   } else if (battleshipPlaced === false) {
-      placeBattleship(evt, playerBoard, ships[3].length );
-      dialogueBox.innerText = "> PLACE YOUR CRUISER (3 TILES)";
+    placeBattleship(evt, playerBoard, ships[3].length);
+    dialogueBox.innerText = "> PLACE YOUR CRUISER (3 TILES)";
   } else if (cruiserPlaced === false) {
-      placeCruiser(evt, playerBoard, ships[2].length);
-      dialogueBox.innerText = "> PLACE YOUR DESTORYER (2 TILES)";
-    } else if (destroyerPlaced === false) {        
-      placeDestroyer(evt, playerBoard, ships[0].length);
-      dialogueBox.innerText = "> PLACE YOUR SUBMARINE (1 TILE)";
+    placeCruiser(evt, playerBoard, ships[2].length);
+    dialogueBox.innerText = "> PLACE YOUR DESTORYER (2 TILES)";
+  } else if (destroyerPlaced === false) {
+    placeDestroyer(evt, playerBoard, ships[0].length);
+    dialogueBox.innerText = "> PLACE YOUR SUBMARINE (1 TILE)";
   } else if (submarinePlaced === false) {
-      placeSubmarine(evt, playerBoard, ships[1].length);
-      cpuDialogueBox.innerText = "> TAKE YOUR SHOT!";
-      placeCpuShips(cpuBoard); 
-      dialogueBox.innerText = "> ENEMY SHIPS IN THE WATER!";  
-      handleShot(cpuBoard);
+    placeSubmarine(evt, playerBoard, ships[1].length);
+    cpuDialogueBox.innerText = "> TAKE YOUR SHOT!";
+    placeCpuShips(cpuBoard);
+    dialogueBox.innerText = "> ENEMY SHIPS IN THE WATER!";
+    handleShot(cpuBoard);
   } else if (submarinePlaced === true) {
 
   }
@@ -302,8 +302,8 @@ function placeCarrier(evt, playerBoard) {
         }
       }
     } else {
-    carrierPlaced = false;
-    cpuDialogueBox.innerText = "> SHIP DOES NOT FIT! PICK A NEW LOCATION "
+      carrierPlaced = false;
+      cpuDialogueBox.innerText = "> SHIP DOES NOT FIT! PICK A NEW LOCATION "
     }
   }
 }
@@ -444,40 +444,40 @@ function placeSubmarine(evt, playerBoard) {
   endingRow = Math.floor((selection / 10) + (shipLength - 1));
   endingLetter = Math.floor(selection + ((shipLength) * 10)) % 10;
   startingLetter = (selection % 10);
-    if (startingRow === endingRow) {
-      for (let x = selection; x < selection + shipLength; x++) {
-        if (playerBoard[Math.floor(x / 10)][x % 10] === 0) {
-          playerBoardTiles[x].style.backgroundColor = 'gray';
-          playerBoard[Math.floor(x / 10)][x % 10] = shipLength;
-          submarinePlaced = true;
-          cpuDialogueBox.innerText = "> SUBMARINE PLACED!"
-        } else {
-          submarinePlaced = false;
-          cpuDialogueBox.innerText = "> SHIP DOES NOT FIT! PICK A NEW LOCATION"
-        }
+  if (startingRow === endingRow) {
+    for (let x = selection; x < selection + shipLength; x++) {
+      if (playerBoard[Math.floor(x / 10)][x % 10] === 0) {
+        playerBoardTiles[x].style.backgroundColor = 'gray';
+        playerBoard[Math.floor(x / 10)][x % 10] = shipLength;
+        submarinePlaced = true;
+        cpuDialogueBox.innerText = "> SUBMARINE PLACED!"
+      } else {
+        submarinePlaced = false;
+        cpuDialogueBox.innerText = "> SHIP DOES NOT FIT! PICK A NEW LOCATION"
       }
     }
+  }
 }
 
 function placeCpuShips(cpuBoard) {
   if (cpuCarrierPlaced === false) {
-    placeCpuCarrier(cpuBoard, ships[4].length) 
-  } 
+    placeCpuCarrier(cpuBoard, ships[4].length)
+  }
   if (cpuCarrierPlaced === true) {
-    placeCpuBattleship(cpuBoard, ships[3].length) 
-  } 
+    placeCpuBattleship(cpuBoard, ships[3].length)
+  }
   if (cpuBattleshipPlaced === true) {
-    placeCpuCruiser(cpuBoard, ships[2].length) 
-  } 
+    placeCpuCruiser(cpuBoard, ships[2].length)
+  }
   if (cpuCruiserPlaced === true) {
-    placeCpuDestroyer(cpuBoard, ships[1].length) 
-  } 
+    placeCpuDestroyer(cpuBoard, ships[1].length)
+  }
   if (cpuDestroyerPlaced === true) {
-    placeCpuSubmarine(cpuBoard, ships[0].length) 
+    placeCpuSubmarine(cpuBoard, ships[0].length)
   }
 }
 
-function placeCpuCarrier (cpuBoard) {
+function placeCpuCarrier(cpuBoard) {
   const shipLength = ships[4].length;
   let randomRotation = Math.floor(Math.random() * 2);
   let randomStartLocation = Math.floor(Math.random() * 100);
@@ -509,20 +509,20 @@ function placeCpuCarrier (cpuBoard) {
       endingRow = Math.floor((randomStartLocation + shipLength) / 10);
       endingLetter = Math.floor(randomStartLocation + ((shipLength - 1) * 10)) % 10;
       startingLetter = (randomStartLocation % 10);
-    } 
+    }
     for (let x = randomStartLocation; x < randomStartLocation + ((shipLength) * 10); x += 10) {
-      if  (cpuBoard[startingRow][(x - 1)] && cpuBoard[startingRow][(x)] && cpuBoard[startingRow][(x + 1)] && cpuBoard[startingRow][(x + 2)] !== 0) {
+      if (cpuBoard[startingRow][(x - 1)] && cpuBoard[startingRow][(x)] && cpuBoard[startingRow][(x + 1)] && cpuBoard[startingRow][(x + 2)] !== 0) {
         cpuCarrierPlaced = false;
         return;
       } else {
-          cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
-          cpuCarrierPlaced = true;
-        }
+        cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
+        cpuCarrierPlaced = true;
+      }
     }
-  } 
+  }
 }
 
-function placeCpuBattleship (cpuBoard) {
+function placeCpuBattleship(cpuBoard) {
   const shipLength = ships[3].length;
   let randomRotation = Math.floor(Math.random() * 2);
   let randomStartLocation = Math.floor(Math.random() * 100);
@@ -548,24 +548,24 @@ function placeCpuBattleship (cpuBoard) {
     }
   } else {
     while (startingRow > shipLength) {
-      randomStartLocation = Math.floor(Math.random() * 100);  
+      randomStartLocation = Math.floor(Math.random() * 100);
       startingRow = Math.floor(randomStartLocation / 10);
       endingRow = Math.floor((randomStartLocation + shipLength) / 10);
       endingLetter = Math.floor(randomStartLocation + ((shipLength - 1) * 10)) % 10;
       startingLetter = (randomStartLocation % 10);
-    } 
-    for (let x = randomStartLocation; x < randomStartLocation + ((shipLength) * 10); x += 10) {
-      if  (cpuBoard[startingRow][(x - 1)] && cpuBoard[startingRow][(x)] && cpuBoard[startingRow][(x + 1)] && cpuBoard[startingRow][(x + 2)] !== 0) {
-        cpuBattleshipPlaced = false;  
-      } else {
-          cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
-          cpuBattleshipPlaced = true;
-        }
     }
-  } 
+    for (let x = randomStartLocation; x < randomStartLocation + ((shipLength) * 10); x += 10) {
+      if (cpuBoard[startingRow][(x - 1)] && cpuBoard[startingRow][(x)] && cpuBoard[startingRow][(x + 1)] && cpuBoard[startingRow][(x + 2)] !== 0) {
+        cpuBattleshipPlaced = false;
+      } else {
+        cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
+        cpuBattleshipPlaced = true;
+      }
+    }
+  }
 }
 
-function placeCpuCruiser (cpuBoard) {
+function placeCpuCruiser(cpuBoard) {
   const shipLength = ships[2].length;
   let randomRotation = Math.floor(Math.random() * 2);
   let randomStartLocation = Math.floor(Math.random() * 100);
@@ -591,25 +591,25 @@ function placeCpuCruiser (cpuBoard) {
     }
   } else {
     while (startingRow > shipLength) {
-      randomStartLocation = Math.floor(Math.random() * 100);  
+      randomStartLocation = Math.floor(Math.random() * 100);
       startingRow = Math.floor(randomStartLocation / 10);
       endingRow = Math.floor((randomStartLocation + shipLength) / 10);
       endingLetter = Math.floor(randomStartLocation + ((shipLength - 1) * 10)) % 10;
       startingLetter = (randomStartLocation % 10);
-    } 
+    }
     for (let x = randomStartLocation; x < randomStartLocation + ((shipLength) * 10); x += 10) {
-      if  (cpuBoard[startingRow][(x - 1)] && cpuBoard[startingRow][(x)] && cpuBoard[startingRow][(x + 1)] && cpuBoard[startingRow][(x + 2)] !== 0) {
+      if (cpuBoard[startingRow][(x - 1)] && cpuBoard[startingRow][(x)] && cpuBoard[startingRow][(x + 1)] && cpuBoard[startingRow][(x + 2)] !== 0) {
         cpuCruiserPlaced = false;
-          
+
       } else {
         cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
         cpuCruiserPlaced = true;
       }
     }
-  } 
+  }
 }
 
-function placeCpuDestroyer (cpuBoard) {
+function placeCpuDestroyer(cpuBoard) {
   const shipLength = ships[1].length;
   let randomRotation = Math.floor(Math.random() * 2);
   let randomStartLocation = Math.floor(Math.random() * 100);
@@ -635,24 +635,24 @@ function placeCpuDestroyer (cpuBoard) {
     }
   } else {
     while (startingRow > shipLength) {
-      randomStartLocation = Math.floor(Math.random() * 100);  
+      randomStartLocation = Math.floor(Math.random() * 100);
       startingRow = Math.floor(randomStartLocation / 10);
       endingRow = Math.floor((randomStartLocation + shipLength) / 10);
       endingLetter = Math.floor(randomStartLocation + ((shipLength - 1) * 10)) % 10;
       startingLetter = (randomStartLocation % 10);
-    } 
+    }
     for (let x = randomStartLocation; x < randomStartLocation + ((shipLength) * 10); x += 10) {
-      if  (cpuBoard[startingRow][(x)] && cpuBoard[startingRow][(x + 1)] !== 0) {
-        cpuDestroyerPlaced = false; 
+      if (cpuBoard[startingRow][(x)] && cpuBoard[startingRow][(x + 1)] !== 0) {
+        cpuDestroyerPlaced = false;
       } else {
-          cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
-          cpuDestroyerPlaced = true;
+        cpuBoard[Math.floor(x / 10)][x % 10] = shipLength;
+        cpuDestroyerPlaced = true;
       }
     }
-  } 
+  }
 }
 
-function placeCpuSubmarine (cpuBoard) {
+function placeCpuSubmarine(cpuBoard) {
   const shipLength = ships[0].length;
   let randomStartLocation = Math.floor(Math.random() * 100);
   let startingRow = 15;
