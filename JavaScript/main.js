@@ -20,7 +20,6 @@ ships = [
   {type: 'carrier', length: 5}
 ];
 
-
 let winner = false;
 let turn = false;
 
@@ -287,10 +286,10 @@ function placeCarrier(evt, playerBoard) {
       }
     } else {
       carrierPlaced = false;
-      cpuDialogueBox.innerText = "> SHIP DOES NOT FIT! PICK A NEW LOCATION"
+      cpuDialogueBox.innerText = "> SHIP DOES NOT FIT! PICK A NEW LOCATION 1"
     }
   } else if (rotation === -1) {
-    if (endingRow < shipLength + 1) {
+    if (startingRow < 6) {
       for (let x = selection; x <= selection + ((shipLength - 1) * 10); x += 10) {
         if (playerBoard[Math.floor(x / 10)][x % 10] === 0) {
           playerBoardTiles[x].style.backgroundColor = 'gray';
@@ -301,8 +300,9 @@ function placeCarrier(evt, playerBoard) {
           carrierPlaced = false;
         }
       }
+    } else {
     carrierPlaced = false;
-    cpuDialogueBox.innerText = "> SHIP DOES NOT FIT! PICK A NEW LOCATION"
+    cpuDialogueBox.innerText = "> SHIP DOES NOT FIT! PICK A NEW LOCATION "
     }
   }
 }
