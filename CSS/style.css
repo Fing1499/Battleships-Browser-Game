@@ -25,6 +25,8 @@ body {
     grid-column-gap: 3vmin; 
     grid-row-gap: 3vmin;
     margin: auto 2vmin;
+    max-width: 150vmin;
+    
 
 }
     #cpu-board { grid-area: 1 / 1 / 2 / 2; }
@@ -81,6 +83,8 @@ body {
     display: flex;
     justify-content: center;
     justify-items: flex-start;
+    min-width: 55vmin;
+    max-width: 55vmin;
 } 
 #dialogue-box {
     width: 100%;
@@ -110,7 +114,7 @@ body {
     font-family: 'Press Start 2P', cursive;
     padding: 1vmin;
     line-height: 3vmin;
-    text-indent: -4.2vmin;
+    text-indent: -3vmin;
     color: red;
 }
 .text {
